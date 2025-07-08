@@ -1,20 +1,17 @@
 name: CI/CD Pipeline
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
-    - main
-  
-jobs:
-    name: deploy to staging
-    runs-on: ubuntu-22.04
+      - main
 
-    - name: Setup Node
-  uses: actions/setup-node@v4
-  with:
-    node-version: '22.04'
-  jobs:
-  test:
+jobs:
+  build: deploy to staging
+    runs-on: ubuntu-latest
+test:
     name: Test on node ${{ matrix.node_version }} and ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
@@ -34,6 +31,3 @@ jobs:
         npm install
         npm run build --if-present
         npm test
-  steps:
-  - run: npm publish
-    if: github.event_name == 'push'
