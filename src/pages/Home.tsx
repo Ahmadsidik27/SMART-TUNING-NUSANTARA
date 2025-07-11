@@ -1,382 +1,273 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Star, Users, BookOpen, Wrench, TrendingUp, Award, Clock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { Card, Button } from '../components/ui';
+import { Alert } from '../components/ui';
+import { formatCurrency } from '../utils/helpers';
 
 const Home: React.FC = () => {
+  const { user, loading } = useAuth();
+  const { cartItems, getCartCount } = useCart();
+
   const featuredCourses = [
-    {
-      id: '1',
-      title: 'Kelas Master Pemrograman ECU Lengkap',
-      instructor: 'Dr. Michael Rodriguez',
-      rating: 4.9,
-      students: 2340,
-      price: 299,
-      image: 'https://images.pexels.com/photos/190574/pexels-photo-190574.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
-      level: 'Lanjutan'
-    },
-    {
-      id: '2',
-      title: 'Dasar-Dasar Diagnostik OBD-II',
-      instructor: 'Sarah Johnson',
-      rating: 4.8,
-      students: 1890,
-      price: 149,
-      image: 'https://images.pexels.com/photos/3806288/pexels-photo-3806288.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
-      level: 'Pemula'
-    },
-    {
-      id: '3',
-      title: 'Teknik Scanner Mobil Lanjutan',
-      instructor: 'James Wilson',
-      rating: 4.9,
-      students: 1560,
-      price: 199,
-      image: 'https://images.pexels.com/photos/4173624/pexels-photo-4173624.jpeg?auto=compress&cs=tinysrgb&w=400&h=250&fit=crop',
-      level: 'Menengah'
-    }
+    { id: '1', title: 'Dasar Pemrograman JavaScript', level: 'beginner', rating: 4.8, price: 299000, students: 1250 },
+    { id: '2', title: 'Advanced React Patterns', level: 'advanced', rating: 4.9, price: 499000, students: 820 },
+    { id: '3', title: 'Mobile App Development', level: 'intermediate', rating: 4.7, price: 399000, students: 950 },
   ];
 
   const featuredEbooks = [
-    {
-      id: '1',
-      title: 'Panduan Lengkap Sistem ECU Modern',
-      author: 'Para Ahli Teknis',
-      rating: 4.7,
-      price: 49,
-      image: 'https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop'
-    },
-    {
-      id: '2',
-      title: 'Manual Troubleshooting Diagnostik Otomotif',
-      author: 'Profesional Industri',
-      rating: 4.8,
-      price: 39,
-      image: 'https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=300&h=400&fit=crop'
-    }
+    { id: '1', title: 'JavaScript Modern Guide', author: 'John Doe', price: 99000, format: 'pdf', pages: 350 },
+    { id: '2', title: 'React Hooks Mastery', author: 'Jane Smith', price: 129000, format: 'pdf', pages: 280 },
+    { id: '3', title: 'Mobile Development Tips', author: 'Mike Johnson', price: 79000, format: 'pdf', pages: 220 },
   ];
 
-  const featuredParts = [
-    {
-      id: '1',
-      name: 'Scanner OBD-II Profesional',
-      brand: 'AutoPro',
-      rating: 4.9,
-      price: 299,
-      image: 'https://images.pexels.com/photos/3807277/pexels-photo-3807277.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    },
-    {
-      id: '2',
-      name: 'Kit Kabel Pemrograman ECU',
-      brand: 'TechTools',
-      rating: 4.7,
-      price: 159,
-      image: 'https://images.pexels.com/photos/442151/pexels-photo-442151.jpeg?auto=compress&cs=tinysrgb&w=300&h=300&fit=crop'
-    }
+  const featuredSpareParts = [
+    { id: '1', name: 'OBD-II Scanner', brand: 'AutoTech', price: 799000, stock: 45 },
+    { id: '2', name: 'ECU Diagnostic Tool', brand: 'AutoMaster', price: 1299000, stock: 32 },
+    { id: '3', name: 'ECU Programmer', brand: 'ECUFlash', price: 2499000, stock: 18 },
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="container mx-auto px-4 py-8">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-                Kuasai Teknologi 
-                <span className="text-blue-300"> Otomotif</span>
-              </h1>
-              <p className="text-xl mb-8 text-blue-100">
-                Pelajari pemrograman ECU, teknik diagnostik, dan teknologi otomotif canggih 
-                dari para ahli industri. Dapatkan sertifikat dan tingkatkan karir Anda.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link 
-                  to="/courses" 
-                  className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold flex items-center justify-center transition-colors"
-                >
-                  Jelajahi Kursus <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg font-semibold transition-colors"
-                >
-                  Pelajari Lebih Lanjut
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <img 
-                src="https://images.pexels.com/photos/3807386/pexels-photo-3807386.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" 
-                alt="Peralatan diagnostik otomotif"
-                className="rounded-lg shadow-2xl"
-              />
-              <div className="absolute -bottom-6 -left-6 bg-white text-gray-900 p-4 rounded-lg shadow-lg">
-                <div className="flex items-center space-x-2">
-                  <Users className="h-5 w-5 text-blue-600" />
-                  <span className="font-semibold">5.000+ Siswa</span>
-                </div>
-              </div>
-            </div>
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-8 mb-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl font-bold mb-4">Selamat Datang di SMART-TUNING-NUSANTARA</h1>
+          <p className="text-xl mb-6">Platform e-learning komprehensif untuk sektor otomotif</p>
+          <div className="flex flex-wrap gap-4">
+            <Button variant="outline" className="border-white text-white">
+              Lihat Kursus
+            </Button>
+            <Button variant="outline" className="border-white text-white">
+              Beli Ebook
+            </Button>
+            <Button variant="outline" className="border-white text-white">
+              Toko Suku Cadang
+            </Button>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">50+</div>
-              <div className="text-gray-600">Kursus Ahli</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">5.000+</div>
-              <div className="text-gray-600">Siswa Terdaftar</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">100+</div>
-              <div className="text-gray-600">Ebook Teknis</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600 mb-2">1.000+</div>
-              <div className="text-gray-600">Suku Cadang</div>
-            </div>
-          </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white rounded-lg shadow-md p-6 text-center">
+          <div className="text-3xl font-bold text-blue-600 mb-2">100+</div>
+          <div className="text-gray-600">Kursus Terbaik</div>
         </div>
-      </section>
+        <div className="bg-white rounded-lg shadow-md p-6 text-center">
+          <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
+          <div className="text-gray-600">Ebook Profesional</div>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6 text-center">
+          <div className="text-3xl font-bold text-blue-600 mb-2">1000+</div>
+          <div className="text-gray-600">Suku Cadang Otomotif</div>
+        </div>
+        <div className="bg-white rounded-lg shadow-md p-6 text-center">
+          <div className="text-3xl font-bold text-blue-600 mb-2">5000+</div>
+          <div className="text-gray-600">Siswa Aktif</div>
+        </div>
+      </div>
 
-      {/* Featured Courses Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Kursus Unggulan</h2>
-            <p className="text-xl text-gray-600">Belajar dari para ahli industri dan tingkatkan karir otomotif Anda</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            {featuredCourses.map((course) => (
-              <div key={course.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <img src={course.image} alt={course.title} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-blue-600 bg-blue-100 px-2 py-1 rounded">
-                      {course.level}
+      {/* Featured Courses */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Kursus Unggulan</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredCourses.map(course => (
+            <Card key={course.id} className="overflow-hidden">
+              <div className="p-6">
+                <div className="text-yellow-500 mb-2">
+                  {Array(5).fill(0).map((_, i) => (
+                    <span key={i}>
+                      {i < Math.floor(course.rating) ? '★' : i < course.rating ? '★' : '☆'}
                     </span>
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">{course.rating}</span>
-                    </div>
-                  </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{course.title}</h3>
-                  <p className="text-gray-600 mb-3">oleh {course.instructor}</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <div className="flex items-center space-x-1">
-                        <Users className="h-4 w-4" />
-                        <span>{course.students.toLocaleString()}</span>
-                      </div>
-                    </div>
-                    <div className="text-2xl font-bold text-gray-900">${course.price}</div>
-                  </div>
-                  <Link 
-                    to={`/courses/${course.id}`}
-                    className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg transition-colors flex items-center justify-center"
-                  >
-                    Lihat Kursus <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  ))}
+                  <span className="ml-1 text-gray-600">({course.rating})</span>
                 </div>
+                <h3 className="text-lg font-semibold mb-2">{course.title}</h3>
+                <p className="text-gray-600 mb-4 line-clamp-2">{course.title}</p>
+                <div className="flex items-center mb-4">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded mr-2">
+                    {course.level}
+                  </span>
+                  <span>{course.students}+ siswa</span>
+                </div>
+                <div className="text-xl font-bold text-blue-600 mb-4">
+                  {formatCurrency(course.price)}
+                </div>
+                <Button variant="primary" className="w-full">
+                  Daftar Sekarang
+                </Button>
               </div>
-            ))}
-          </div>
-          
-          <div className="text-center">
-            <Link 
-              to="/courses" 
-              className="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Lihat Semua Kursus <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
+            </Card>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* Featured Ebooks Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Ebook Teknis</h2>
-            <p className="text-xl text-gray-600">Panduan lengkap dan manual untuk profesional otomotif</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {featuredEbooks.map((ebook) => (
-              <div key={ebook.id} className="bg-gray-50 rounded-lg p-6 flex space-x-6 hover:shadow-lg transition-shadow">
-                <img src={ebook.image} alt={ebook.title} className="w-24 h-32 object-cover rounded" />
-                <div className="flex-1">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{ebook.title}</h3>
-                  <p className="text-gray-600 mb-2">oleh {ebook.author}</p>
-                  <div className="flex items-center space-x-2 mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">{ebook.rating}</span>
-                    </div>
+      {/* Featured Ebooks */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Ebook Terpopuler</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredEbooks.map(ebook => (
+            <Card key={ebook.id} className="overflow-hidden">
+              <div className="p-6">
+                <div className="flex items-center mb-4">
+                  <div className="bg-gray-200 p-3 rounded-lg mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-2xl font-bold text-gray-900">${ebook.price}</div>
-                    <Link 
-                      to={`/ebooks/${ebook.id}`}
-                      className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg transition-colors"
-                    >
-                      Lihat Detail
-                    </Link>
+                  <div>
+                    <h3 className="font-semibold">{ebook.title}</h3>
+                    <p className="text-sm text-gray-600">{ebook.author}</p>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-          
-          <div className="text-center">
-            <Link 
-              to="/ebooks" 
-              className="inline-flex items-center bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Jelajahi Semua Ebook <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Featured Spare Parts Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Alat & Suku Cadang Profesional</h2>
-            <p className="text-xl text-gray-600">Alat otomotif berkualitas dan suku cadang untuk profesional</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {featuredParts.map((part) => (
-              <div key={part.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <img src={part.image} alt={part.name} className="w-full h-48 object-cover" />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{part.name}</h3>
-                  <p className="text-gray-600 mb-2">oleh {part.brand}</p>
-                  <div className="flex items-center space-x-2 mb-4">
-                    <div className="flex items-center space-x-1">
-                      <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                      <span className="text-sm text-gray-600">{part.rating}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="text-2xl font-bold text-gray-900">${part.price}</div>
-                    <Link 
-                      to={`/spare-parts/${part.id}`}
-                      className="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded-lg transition-colors"
-                    >
-                      Lihat Produk
-                    </Link>
-                  </div>
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                    {ebook.format.toUpperCase()}
+                  </span>
+                  <span className="text-sm text-gray-600">
+                    {ebook.pages} halaman
+                  </span>
                 </div>
+                <div className="text-xl font-bold text-blue-600 mb-4">
+                  {formatCurrency(ebook.price)}
+                </div>
+                <Button variant="primary" className="w-full">
+                  Beli Ebook
+                </Button>
               </div>
-            ))}
-          </div>
-          
-          <div className="text-center">
-            <Link 
-              to="/spare-parts" 
-              className="inline-flex items-center bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
-            >
-              Belanja Semua Suku Cadang <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </div>
+            </Card>
+          ))}
         </div>
-      </section>
+      </div>
 
-      {/* Features Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Mengapa Memilih AutoTech Academy?</h2>
-            <p className="text-xl text-gray-600">Semua yang Anda butuhkan untuk sukses dalam teknologi otomotif</p>
+      {/* Featured Spare Parts */}
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">Suku Cadang Unggulan</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {featuredSpareParts.map(part => (
+            <Card key={part.id} className="overflow-hidden">
+              <div className="p-6">
+                <div className="bg-gray-200 p-3 rounded-lg mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </div>
+                <h3 className="font-semibold mb-2">{part.name}</h3>
+                <p className="text-sm text-gray-600 mb-2">{part.brand}</p>
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">
+                    Stok: {part.stock}
+                  </span>
+                </div>
+                <div className="text-xl font-bold text-blue-600 mb-4">
+                  {formatCurrency(part.price)}
+                </div>
+                <Button variant="primary" className="w-full">
+                  Beli Sekarang
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </div>
+
+      {/* Testimonial Section */}
+      <div className="bg-gray-50 rounded-lg p-8 mb-8">
+        <h2 className="text-2xl font-bold mb-6 text-center">Testimoni Siswa</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex items-center mb-4">
+              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <span className="text-blue-600 font-bold">JD</span>
+              </div>
+              <div>
+                <h4 className="font-semibold">John Doe</h4>
+                <p className="text-sm text-gray-600">Siswa</p>
+              </div>
+            </div>
+            <p className="text-gray-700">"Kursus JavaScript sangat membantu saya memahami pemrograman. Materi mudah dipahami dan praktis."</p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BookOpen className="h-8 w-8 text-blue-600" />
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex items-center mb-4">
+              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <span className="text-blue-600 font-bold">JS</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Kursus Dipimpin Ahli</h3>
-              <p className="text-gray-600">Belajar dari profesional industri dengan pengalaman dunia nyata bertahun-tahun</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Award className="h-8 w-8 text-orange-600" />
+              <div>
+                <h4 className="font-semibold">Jane Smith</h4>
+                <p className="text-sm text-gray-600">Pengembang Web</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Pembelajaran Bersertifikat</h3>
-              <p className="text-gray-600">Dapatkan sertifikat yang diakui industri untuk memajukan karir Anda</p>
             </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Wrench className="h-8 w-8 text-teal-600" />
+            <p className="text-gray-700">"Ebook React Hooks Mastery sangat detail dan membantu saya menguasi React Hooks dengan cepat."</p>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-sm">
+            <div className="flex items-center mb-4">
+              <div className="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center mr-4">
+                <span className="text-blue-600 font-bold">MJ</span>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Alat Berkualitas</h3>
-              <p className="text-gray-600">Akses ke alat otomotif tingkat profesional dan suku cadang</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Clock className="h-8 w-8 text-purple-600" />
+              <div>
+                <h4 className="font-semibold">Mike Johnson</h4>
+                <p className="text-sm text-gray-600">Teknisi Otomotif</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Pembelajaran Fleksibel</h3>
-              <p className="text-gray-600">Belajar sesuai kecepatan Anda dengan akses seumur hidup ke materi kursus</p>
             </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-green-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Dukungan Komunitas</h3>
-              <p className="text-gray-600">Terhubung dengan sesama siswa dan profesional dalam komunitas kami</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <TrendingUp className="h-8 w-8 text-red-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Pertumbuhan Karir</h3>
-              <p className="text-gray-600">Pelatihan lanjutan untuk meningkatkan keterampilan dan potensi penghasilan Anda</p>
-            </div>
+            <p className="text-gray-700">"Alat-alat diagnostic yang dijual sangat berkualitas dan membantu saya dalam pekerjaan sehari-hari."</p>
           </div>
         </div>
-      </section>
+      </div>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-900 to-blue-700 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Siap Memulai Perjalanan Anda?</h2>
-          <p className="text-xl mb-8 text-blue-100">
-            Bergabunglah dengan ribuan profesional otomotif yang telah memajukan karir mereka dengan AutoTech Academy
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              to="/courses" 
-              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transition-colors"
-            >
-              Mulai Belajar Hari Ini
-            </Link>
-            <Link 
-              to="/contact" 
-              className="border-2 border-white text-white hover:bg-white hover:text-blue-900 px-8 py-4 rounded-lg font-semibold transition-colors"
-            >
-              Hubungi Kami
-            </Link>
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg p-8 text-center">
+        <h2 className="text-2xl font-bold mb-4">Siap Mulai Belajar?</h2>
+        <p className="mb-6">Gabung sekarang dan mulai karir Anda di dunia otomotif!</p>
+        <div className="flex flex-wrap justify-center gap-4">
+          <Button variant="outline" className="border-white text-white">
+            Daftar Akun
+          </Button>
+          <Button variant="outline" className="border-white text-white">
+            Hubungi Kami
+          </Button>
+        </div>
+      </div>
+
+      {/* Cart Summary */}
+      {user && (
+        <div className="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg p-4 z-10">
+          <div className="flex items-center">
+            <div className="relative mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              {getCartCount() > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {getCartCount()}
+                </span>
+              )}
+            </div>
+            <div>
+              <p className="text-sm font-semibold">Keranjang Belanja</p>
+              <p className="text-xs text-gray-600">{getCartCount()} item(s)</p>
+            </div>
           </div>
         </div>
-      </section>
+      )}
     </div>
   );
+};
+
+// Helper function for formatting currency
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
+
+// Helper function for generating star ratings
+const getCartCount = () => {
+  // In a real app, this would be from context
+  return 0;
 };
 
 export default Home;

@@ -1,25 +1,111 @@
+# Dependencies
+node_modules/
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+.env.test.local
+.env.production.local
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.njsproj
+*.sln
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
 # Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# Coverage reports
+coverage/
+*.lcov
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-.env
+# Test artifacts
+jest.config.js
+jest.setup.js
+
+# TypeScript
+*.tsbuildinfo
+
+# Node modules
+**/node_modules
+
+# Cache
+**/.cache
+
+# Dependency directories
+**/.pnp
+**/.yarn/cache
+**/.yarn/unplugged
+**/.yarn/install-state.gz
+
+# Dependency directories
+**/node_modules
+**/.pnp
+**/.yarn/cache
+**/.yarn/unplugged
+**/.yarn/install-state.gz
+
+# Build artifacts
+**/dist
+**/.next
+**/.out
+
+# Dependency directories
+**/node_modules
+**/.pnp
+**/.yarn/cache
+**/.yarn/unplugged
+**/.yarn/install-state.gz
+
+# IDE
+**/.idea
+**/*.swp
+**/*.swo
+**/*.bak
+**/*.tmp
+**/*.zip
+**/*.rar
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Logs
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
+
+# Testing
+**/coverage
+**/jest.config.js
+**/jest.setup.js
+
+# TypeScript
+**/*.tsbuildinfo
+
+# Cache
+**/.cache
+
+# Editor files
+**/.vscode/settings.json
+**/.vscode/tasks.json
+**/.vscode/launch.json
+**/.vscode/extensions.json
+
+# Prettier cache
+**/.prettier-cache
+
+# Husky
+**/.husky
